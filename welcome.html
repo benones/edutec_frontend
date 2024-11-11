@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <!-- Define a codificação do documento como UTF-8 para suportar caracteres especiais -->
+    <meta charset="UTF-8">
+    <!-- Define o viewport para ajustar o layout para dispositivos móveis -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Define o título da página como "Quiz de Boas-vindas" -->
+    <title>Quiz de Boas-vindas</title>
+</head>
+
+<body>
+    <!-- Título da página de boas-vindas do quiz -->
+    <h1>Bem-vindo ao Quiz!</h1>
+
+    <!-- Formulário do quiz com o ID 'quizForm' para identificar no JavaScript -->
+    <form id="quizForm">
+        <!-- Primeira pergunta do quiz com opções de múltipla escolha -->
+        <div class="question">
+            <p>1. Qual é a capital da França?</p>
+            <label><input type="radio" name="q1" value="A"> A) Berlim</label><br>
+            <label><input type="radio" name="q1" value="B"> B) Madri</label><br>
+            <label><input type="radio" name="q1" value="C"> C) Roma</label><br>
+            <label><input type="radio" name="q1" value="D"> D) Paris</label><br>
+            <label><input type="radio" name="q1" value="E"> E) Lisboa</label>
+        </div>
+
+        <!-- Segunda pergunta do quiz -->
+        <div class="question">
+            <p>2. Qual é a linguagem que usa a sigla ts?</p>
+            <label><input type="radio" name="q2" value="A"> A) TypeScript</label><br>
+            <label><input type="radio" name="q2" value="B"> B) JavaScript</label><br>
+            <label><input type="radio" name="q2" value="C"> C) Lua</label><br>
+            <label><input type="radio" name="q2" value="D"> D) C</label><br>
+            <label><input type="radio" name="q2" value="E"> E) B</label>
+        </div>
+
+        <!-- Botão para enviar as respostas do quiz -->
+        <button type="submit">Enviar Respostas</button>
+    </form>
+
+    <!-- Parágrafo para exibir a mensagem de resultado do quiz -->
+    <p id="resultMessage"></p>
+
+    <!-- Botão para visualizar o ranking -->
+    <button id="rankingButton">Ranking</button>
+
+    <!-- Tabela para exibir o ranking dos usuários -->
+    <table id="rankingTable" style="display: none; margin-top: 20px;">
+        <thead>
+            <tr>
+                <th>Usuário</th>
+                <th>Pontuação</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        // Obtém o token JWT armazenado no localStorage
+        const token = localStorage.getItem("token");
+
+        // Adiciona um event listener para o evento 'submit' no formulário de quiz
+        document.getElementById("quizForm").addEventListener("submit", async (e) => {
+            e.preventDefault(); // Evita o recarregamento da página
+
+            // Coleta as respostas das perguntas
+            const answers = {
+                q1: document.querySelector('input[name="q1"]:checked')?.value,
+                q2: document.querySelector('input[name="q2"]:checked')?.value,
+                // Adicione as outras respostas das perguntas aqui
+            };
+
+            // Define as respostas corretas para comparação
+            const correctAnswers = {
+                q1: "D",
+                q2: "A"
+                // Adicione as respostas corretas das outras perguntas aqui
+            };
+
+            // Calcula a pontuação do usuário
+            let score = 0;
+            for (const [key, answer] of Object.entries(answers)) {
+                if (answer === correctAnswers[key]) score++;
+            }
+
+            // Exibe a pontuação do usuário na página
+            document.getElementById("resultMessage").textContent = `Sua pontuação: ${score}/5`;
+
+            // Envia a pontuação para o backend
+            try {
+                const response = await fetch("http://localhost:3000/api/save-score", {
+                    method: "POST", // Método HTTP POST para envio de dados
+                    headers: {
+                        "Content-Type": "application/json", // Cabeçalho indicando JSON
+                        "Authorization": token // Cabeçalho de autorização com token JWT
+                    },
+                    body: JSON.stringify({ score }) // Corpo da requisição com a pontuação do usuário
+                });
+
+                // Verifica se a pontuação foi salva com sucesso
+                if (response.ok) {
+                    alert("Pontuação salva com sucesso!");
+                } else {
+                    alert("Erro ao salvar a pontuação!");
+                }
+            } catch (error) {
+                console.error("Erro:", error); // Exibe erros no console
+            }
+        });
+
+        // Função para buscar e exibir o ranking dos usuários
+        async function fetchRanking() {
+            try {
+                const response = await fetch("http://localhost:3000/api/ranking", {
+                    headers: { "Authorization": token } // Cabeçalho de autorização com token JWT
+                });
+
+                // Verifica se a resposta foi bem-sucedida
+                if (response.ok) {
+                    const rankingData = await response.json();
+                    const rankingTable = document.getElementById("rankingTable");
+                    const tbody = rankingTable.querySelector("tbody");
+
+                    // Limpa a tabela antes de preenchê-la com novos dados
+                    tbody.innerHTML = "";
+
+                    // Preenche a tabela com os dados de ranking
+                    rankingData.forEach((item) => {
+                        const row = document.createElement("tr"); // Cria uma nova linha para a tabela
+                        const usernameCell = document.createElement("td"); // Célula para o nome do usuário
+                        const scoreCell = document.createElement("td"); // Célula para a pontuação
+
+                        usernameCell.textContent = item.username; // Insere o nome do usuário
+                        scoreCell.textContent = item.score; // Insere a pontuação
+
+                        row.appendChild(usernameCell); // Adiciona a célula do nome à linha
+                        row.appendChild(scoreCell); // Adiciona a célula da pontuação à linha
+                        tbody.appendChild(row); // Adiciona a linha completa à tabela
+                    });
+
+                    rankingTable.style.display = "table"; // Exibe a tabela de ranking
+                } else {
+                    alert("Erro ao buscar o ranking."); // Exibe erro se a busca falhar
+                }
+            } catch (error) {
+                console.error("Erro:", error); // Exibe erros no console
+            }
+        }
+
+        // Adiciona um event listener ao botão de ranking para chamar a função fetchRanking
+        document.getElementById("rankingButton").addEventListener("click", fetchRanking);
+    </script>
+</body>
+
+</html>
+
+
+<!-- Explicação dos Principais Elementos
+
+	•	Formulário de Quiz: Contém as perguntas de múltipla escolha com inputs radio agrupados por name para cada pergunta.
+	•	Botão de Ranking: Exibe o ranking ao ser clicado, chamando a função fetchRanking.
+	•	Tabela de Ranking: Inicialmente oculta, mostra o ranking com nome do usuário e pontuação.
+	•	Script JavaScript:
+	•	Função de Envio de Quiz: Calcula a pontuação com base nas respostas corretas e envia a pontuação para o backend.
+	•	Função fetchRanking(): Busca o ranking do backend e preenche a tabela com os dados dos usuários, organizados pela pontuação. -->

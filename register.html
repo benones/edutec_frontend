@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <!-- Define a codificação do documento como UTF-8 para suporte a caracteres especiais -->
+    <meta charset="UTF-8">
+    <!-- Define o viewport para ajustar o layout para dispositivos móveis -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Define o título da página como "Cadastro" -->
+    <title>Cadastro</title>
+    <!-- Link para o arquivo CSS externo para estilizar a página -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Container principal da tela de cadastro -->
+    <div class="login-container">
+        <!-- Título da seção de cadastro -->
+        <h2>Cadastro</h2>
+        <!-- Formulário de cadastro com o ID "registerForm" para identificar no JavaScript -->
+        <form id="registerForm">
+            <!-- Campo de entrada para o nome de usuário, com ID "registerUsername" -->
+            <input type="text" id="registerUsername" placeholder="Username" required>
+            <!-- Campo de entrada para a senha, com ID "registerPassword" -->
+            <input type="password" id="registerPassword" placeholder="Password" required>
+            <!-- Botão de envio do formulário com o texto "Cadastrar" -->
+            <button type="submit">Cadastrar</button>
+        </form>
+    </div>
+    <!-- Importa o arquivo JavaScript externo para adicionar funcionalidades ao formulário de cadastro -->
+    <script src="register.js"></script>
+</body>
+
+</html>
+
+<!-- Explicação dos Principais Elementos:
+
+	•	<!DOCTYPE html>: Declara o tipo de documento como HTML5.
+	•	<html lang="pt-br">: Define o idioma do documento como português do Brasil.
+	•	<head>: Contém os metadados da página, como charset, viewport e título.
+	•	<meta charset="UTF-8">: Configura a página para usar a codificação UTF-8.
+	•	<meta name="viewport" content="width=device-width, initial-scale=1.0">: Ajusta o layout para dispositivos móveis.
+	•	<title>Cadastro</title>: Define o título da aba ou janela do navegador como “Cadastro”.
+	•	<link rel="stylesheet" href="style.css">: Vincula um arquivo CSS externo que será usado para estilizar a página.
+	•	<body>: Contém o conteúdo visível da página.
+	•	<div class="login-container">: Agrupa os elementos de cadastro em um contêiner, facilitando a estilização e estruturação.
+	•	<h2>Cadastro</h2>: Exibe o título “Cadastro” na página.
+	•	<form id="registerForm">: Define um formulário com o ID registerForm, o que facilita a manipulação pelo JavaScript.
+	•	<input>: Campos de entrada para o nome de usuário e senha, com IDs específicos para cada campo (registerUsername e registerPassword).
+	•	<button type="submit">: Botão de envio do formulário com o texto “Cadastrar”.
+	•	<script src="register.js">: Vincula o arquivo JavaScript externo register.js, que lida com o comportamento do formulário de cadastro. -->

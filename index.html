@@ -1,27 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
+    <!-- Define a codificação do documento como UTF-8 para suportar caracteres especiais -->
     <meta charset="UTF-8">
+    <!-- Define o viewport para ajustar o layout para dispositivos móveis -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Jogadores</title>
+    <!-- Define o título da página como "Login" -->
+    <title>Login</title>
+    <!-- Link para o arquivo CSS externo para estilizar a página -->
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="container">
-        <h1>Cadastro de Jogadores</h1>
-        <form id="playerForm">
-            <label for="nome">Nome:</label>
-            <input type="text" id="nome" name="nome" required>
-            <label for="sobrenome">Sobrenome:</label>
-            <input type="text" id="sobrenome" name="sobrenome" required>
-            <button type="submit">Cadastrar</button>
+    <!-- Container principal da tela de login -->
+    <div class="login-container">
+        <!-- Título da seção de login -->
+        <h2>Login</h2>
+        <!-- Formulário de login com o ID "loginForm" para identificar no JavaScript -->
+        <form id="loginForm">
+            <!-- Campo de entrada para o nome de usuário, com ID "username" -->
+            <input type="text" id="username" placeholder="Username" required>
+            <!-- Campo de entrada para a senha, com ID "password" -->
+            <input type="password" id="password" placeholder="Password" required>
+            <!-- Botão de envio do formulário com o texto "Entrar" -->
+            <button type="submit">Entrar</button>
         </form>
-        <div id="message"></div>
+        <!-- Link para redirecionar o usuário para a página de cadastro caso não tenha uma conta -->
+        <p>Não tem uma conta? <a href="register.html">Cadastre-se aqui</a></p>
     </div>
-
-    <script src="app.js"></script>
+    <!-- Importa o arquivo JavaScript externo para adicionar funcionalidades ao formulário -->
+    <script src="script.js"></script>
 </body>
 
 </html>
+
+
+<!--
+Explicação dos Principais Elementos:
+
+	•	<!DOCTYPE html>: Declara o tipo de documento como HTML5.
+	•	<html lang="pt-br">: Define o idioma do documento como português do Brasil.
+	•	<head>: Contém metadados da página, como charset, viewport e título.
+	•	<meta charset="UTF-8">: Configura a página para usar a codificação UTF-8.
+	•	<meta name="viewport" content="width=device-width, initial-scale=1.0">: Ajusta o layout para dispositivos móveis.
+	•	<title>Login</title>: Define o título da aba ou janela do navegador.
+	•	<link rel="stylesheet" href="style.css">: Vincula um arquivo CSS externo para estilização.
+	•	<body>: Contém o conteúdo visível da página.
+	•	<div class="login-container">: Agrupa os elementos de login em um contêiner para fácil estilização.
+	•	<h2>Login</h2>: Exibe o título “Login”.
+	•	<form id="loginForm">: Define um formulário com o ID loginForm para facilitar a manipulação pelo JavaScript.
+	•	<input>: Campos de entrada para o nome de usuário e senha.
+	•	<button type="submit">: Botão de envio do formulário com o texto “Entrar”.
+	•	<p>: Texto que redireciona o usuário para a página de cadastro se ele não tiver uma conta.
+	•	<script src="script.js">: Vincula o arquivo JavaScript externo que lida com o comportamento do formulário.
+         -->
